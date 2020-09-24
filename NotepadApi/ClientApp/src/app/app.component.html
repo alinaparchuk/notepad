@@ -1,0 +1,48 @@
+﻿<div class="container">
+    <h1>Блокнот</h1>
+    <input type="button" value="Добавить заметку" class="btn btn-default" (click)="add()"/>
+
+
+    <table *ngIf="tableMode; else create" class="table table-hover">
+        <thead>
+            <tr>
+                <td>Текст заметки</td>
+                <td>Управление заметкой</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let n of notes">
+                <ng-template [ngIf]="note?.id != n.id" [ngIfElse]="edit">
+                    <td>{{n?.text}}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" (click)="editProduct(n)">Изменить</button>
+                        <button class="btn btn-sm btn-danger" (click)="delete(n)">Удалить</button>
+                    </td>
+                </ng-template>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--шаблон для редактирования-->
+<ng-template #edit>
+    <td>
+        <input type="text" [(ngModel)]="note.text" class="form-control" />
+    </td>   
+    <td>
+        <input type="button" value="Сохранить" (click)="save()" class="btn btn-sm btn-success" />
+        <input type="button" value="Отмена" (click)="cancel()" class="btn btn-sm btn-warning" />
+    </td>
+</ng-template>
+
+<!--шаблон для добавления-->
+<ng-template #create>
+    <div class="form-group">
+        <label>Текст</label>
+        <input type="text" [(ngModel)]="note.text" class="form-control" />
+    </div>
+    <div>
+        <input type="button" value="Сохранить" (click)="save()" class="btn btn-success" />
+        <input type="button" value="Отмена" (click)="cancel()" class="btn btn-warning" />
+    </div>
+</ng-template>
